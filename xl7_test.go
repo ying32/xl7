@@ -39,8 +39,9 @@ func TestAll(t *testing.T) {
 			break
 		}
 		time.Sleep(time.Second * 1)
-
+		// 按照官方的说话，无论成功还是失败都必须调用
 	} else {
 		t.Log("下载错误：", GetErrorMsg(errID))
 	}
+
 }
