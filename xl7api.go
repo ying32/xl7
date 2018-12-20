@@ -33,15 +33,18 @@ func InitDownloadEngine() bool {
 }
 
 // URLDownloadToFile 从URL下载文件
-func URLDownloadToFile(fileName, URL, refURL string, taskID int) uint32 {
+func URLDownloadToFile(fileName, URL, refURL string) (errID uint32, taskID int) {
 	r, _, _ := _XLURLDownloadToFile.Call(toStrPtr(fileName), toStrPtr(URL), toStrPtr(refURL), uintptr(unsafe.Pointer(&taskID)))
-	return uint32(r)
+	errID = uint32(r)
+	return
 }
 
 // QueryTaskInfo 查询指定下载任务的信息
-func QueryTaskInfo(taskID int, status *int, pullFileSize, pullRecvSize *int64) uint32 {
-	r, _, _ := _XLQueryTaskInfo.Call(uintptr(taskID), uintptr(unsafe.Pointer(status)), uintptr(unsafe.Pointer(pullFileSize)), uintptr(unsafe.Pointer(pullRecvSize)))
-	return uint32(r)
+func QueryTaskInfo(taskID int) (errID uint32, status int, pullFileSize, pullRecvSize uint64) {
+	status = -1
+	r, _, _ := _XLQueryTaskInfo.Call(uintptr(taskID), uintptr(unsafe.Pointer(&status)), uintptr(unsafe.Pointer(&pullFileSize)), uintptr(unsafe.Pointer(&pullRecvSize)))
+	errID = uint32(r)
+	return
 }
 
 // PauseTask 暂停指定任务
@@ -56,10 +59,11 @@ func ContinueTask(taskID int) uint32 {
 	return uint32(r)
 }
 
-// ContinueTaskFromTdFile 从文件继续下载, 并返回任务ID
-func ContinueTaskFromTdFile(tdFileFullPath string, taskID *int) uint32 {
-	r, _, _ := _XLContinueTaskFromTdFile.Call(toStrPtr(tdFileFullPath), uintptr(unsafe.Pointer(taskID)))
-	return uint32(r)
+// ContinueTaskFromTdFile 从.td文件继续下载, 并返回任务ID
+func ContinueTaskFromTdFile(tdFileFullPath string) (errID uint32, taskID int) {
+	r, _, _ := _XLContinueTaskFromTdFile.Call(toStrPtr(tdFileFullPath), uintptr(unsafe.Pointer(&taskID)))
+	errID = uint32(r)
+	return
 }
 
 // StopTask 停止下载指定任务
