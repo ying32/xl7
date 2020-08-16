@@ -10,16 +10,16 @@ import (
 */
 
 var (
-	xldll                     = syscall.NewLazyDLL("XLDownload.dll")
-	_XLInitDownloadEngine     = xldll.NewProc("XLInitDownloadEngine")
-	_XLURLDownloadToFile      = xldll.NewProc("XLURLDownloadToFile")
-	_XLQueryTaskInfo          = xldll.NewProc("XLQueryTaskInfo")
-	_XLPauseTask              = xldll.NewProc("XLPauseTask")
-	_XLContinueTask           = xldll.NewProc("XLContinueTask")
-	_XLContinueTaskFromTdFile = xldll.NewProc("XLContinueTaskFromTdFile")
-	_XLStopTask               = xldll.NewProc("XLStopTask")
-	_XLUninitDownloadEngine   = xldll.NewProc("XLUninitDownloadEngine")
-	_XLGetErrorMsg            = xldll.NewProc("XLGetErrorMsg")
+	_XLDownloadDLl            = syscall.NewLazyDLL("XLDownload.dll")
+	_XLInitDownloadEngine     = _XLDownloadDLl.NewProc("XLInitDownloadEngine")
+	_XLURLDownloadToFile      = _XLDownloadDLl.NewProc("XLURLDownloadToFile")
+	_XLQueryTaskInfo          = _XLDownloadDLl.NewProc("XLQueryTaskInfo")
+	_XLPauseTask              = _XLDownloadDLl.NewProc("XLPauseTask")
+	_XLContinueTask           = _XLDownloadDLl.NewProc("XLContinueTask")
+	_XLContinueTaskFromTdFile = _XLDownloadDLl.NewProc("XLContinueTaskFromTdFile")
+	_XLStopTask               = _XLDownloadDLl.NewProc("XLStopTask")
+	_XLUninitDownloadEngine   = _XLDownloadDLl.NewProc("XLUninitDownloadEngine")
+	_XLGetErrorMsg            = _XLDownloadDLl.NewProc("XLGetErrorMsg")
 )
 
 func toStrPtr(str string) uintptr {
